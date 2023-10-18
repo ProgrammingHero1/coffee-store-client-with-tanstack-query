@@ -1,17 +1,27 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 
 const Users2 = () => {
-    const [users, setUsers] = useState([]);
 
-    useEffect(() => {
-        fetch('http://localhost:5000/user')
-            .then(res => res.json())
-            .then(data => {
-                setUsers(data)
-            })
+    const { isPending, isError, error, data: users } = useQuery({
+        queryKey: ['users'],
+        queryFn: async () => {
+            const res = await fetch('http://localhost:5000/user');
+            return res.json();
+        }
+    })
 
-    }, [])
+    // const [users, setUsers] = useState([]);
+
+    // useEffect(() => {
+    //     fetch('http://localhost:5000/user')
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             setUsers(data)
+    //         })
+
+    // }, [])
 
 
 
@@ -30,6 +40,14 @@ const Users2 = () => {
                     // setUsers(remainingUsers);
                 }
             })
+    }
+
+    if (isPending) {
+        return <span className="loading loading-spinner text-primary"></span>
+    }
+
+    if (isError) {
+        return <p>{error.message}</p>
     }
 
 
