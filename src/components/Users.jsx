@@ -1,4 +1,5 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 
 
@@ -6,9 +7,24 @@ const Users = () => {
     const loadedUsers = useLoaderData();
     const [users, setUsers] = useState(loadedUsers);
 
+    // useEffect(() => {
+    //     fetch('/')
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             console.log(data);
+    //         })
+    // }, [])
+
+    // useEffect(() => {
+    //     axios.get('/')
+    //         .then(data => {
+    //             console.log(data.data);
+    //         })
+    // }, [])
+
     const handleDelete = id => {
         // make sure user is confirmed to delete
-        fetch(`https://coffee-store-server-74xiae2di-jhankarphero.vercel.app/user/${id}`, {
+        fetch(`http://localhost:5000/user/${id}`, {
             method: 'DELETE'
         })
             .then(res => res.json())

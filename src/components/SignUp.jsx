@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import axios from "axios";
 
 
 const SignUp = () => {
@@ -18,19 +19,28 @@ const SignUp = () => {
                 // new user has been created
                 const createdAt = result.user?.metadata?.creationTime;
                 const user = { email, createdAt: createdAt };
-                fetch('https://coffee-store-server-74xiae2di-jhankarphero.vercel.app/user', {
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json'
-                    },
-                    body: JSON.stringify(user)
-                })
-                    .then(res => res.json())
+                // using axios
+                axios.post('http://localhost:5000/user', user)
                     .then(data => {
-                        if(data.insertedId){
-                            console.log('user added to the database')
+                        if (data.data.insertedId) {
+                            console.log('data added to the database')
                         }
                     })
+
+                // using fetch
+                // fetch('http://localhost:5000/user', {
+                //     method: 'POST',
+                //     headers: {
+                //         'content-type': 'application/json'
+                //     },
+                //     body: JSON.stringify(user)
+                // })
+                //     .then(res => res.json())
+                //     .then(data => {
+                //         if(data.insertedId){
+                //             console.log('user added to the database')
+                //         }
+                //     })
             })
             .catch(error => {
                 console.error(error)
